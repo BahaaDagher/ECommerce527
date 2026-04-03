@@ -1,0 +1,13 @@
+﻿@model PersonVM
+<ul>
+    @foreach (var item in Model.Persons)
+    {
+        <li>Id : @item.Id</li>
+        <li>Name : @item.Name</li>
+        <li>Address : @item.Address</li>
+        <li>Salary : @item.Salary</li>
+        <hr />
+    }
+    Count = @Model.Count
+
+</ul>
