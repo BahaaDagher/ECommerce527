@@ -146,7 +146,7 @@
                 </li>
                 @for (int i = 1; i <= ViewBag.TotalPages; i++)
                 {
-                    <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                    <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")"> 
                         <a class="page-link" href="/Home/Index?Page=@i">
                             @i
                         </a>
