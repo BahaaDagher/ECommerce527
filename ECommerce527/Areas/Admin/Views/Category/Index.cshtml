@@ -8,7 +8,10 @@
             <a href="/Admin/Category/Create" class="btn btn-success">Create</a>
         </div>
     </div>
-
+    <div>
+        @* @Context.Request.Cookies["Success-Notification"]  *@
+       
+    </div>
     <div class="row">
         <div class="col-12">
 
@@ -88,3 +91,13 @@
 
     });
 </script>
+
+@section Scripts{
+    @if (@TempData["Success-Notification"] is not null)
+    {
+        <script>
+            toastr.success('@TempData["Success-Notification"]')
+        </script>
+    }
+    
+}
