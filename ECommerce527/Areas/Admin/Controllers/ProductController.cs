@@ -29,7 +29,7 @@ namespace ECommerce527.Areas.Admin.Controllers
             }
             if (filter.MaxPrice > 0)
             {
-                products = products.Where(p => p.Price - (p.Price * p.Discount / 100) >= filter.MaxPrice);
+                products = products.Where(p => p.Price - (p.Price * p.Discount / 100) <= filter.MaxPrice);
                 ViewBag.MaxPrice = filter.MaxPrice;
 
             }
