@@ -1,18 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using ECommerce527.ViewModels;
 
 namespace ECommerce527.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+        {
+        }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductSubImage> ProductSubImages { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog = Ecommerce527 ;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;"); 
-        }
+        public DbSet<ApplicationUserOtp> ApplicationUserOtps { get; set; }
+        public DbSet<ECommerce527.ViewModels.ValidateOTPVM> ValidateOTPVM { get; set; } = default!;
+        public DbSet<ECommerce527.ViewModels.NewPasswordVM> NewPasswordVM { get; set; } = default!;
+        
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog = Ecommerce527 ;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;"); 
+        //}
     }
 }

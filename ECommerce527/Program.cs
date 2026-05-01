@@ -1,3 +1,11 @@
+using ECommerce527.Data;
+using ECommerce527.Repositories;
+using ECommerce527.Utilities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
+
 namespace ECommerce527
 {
     public class Program
@@ -8,6 +16,34 @@ namespace ECommerce527
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            var connectionString =
+                    builder.Configuration.GetConnectionString("DefaultConnection")
+                        ?? throw new InvalidOperationException("Connection string"
+                        + "'DefaultConnection' not found.");
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true; 
+                options.SignIn.RequireConfirmedEmail = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders(); 
+
+            // Transient  , Scoped  ,SingleTone
+            //builder.Services.AddSingleton<IRepository<Category> ,Repository<Category> >(); 
+            builder.Services.AddScoped<IRepository<Category> ,Repository<Category> >(); 
+            builder.Services.AddScoped<IRepository<Brand> ,Repository<Brand>>(); 
+            builder.Services.AddScoped<IRepository<Product> ,Repository<Product> >(); 
+            builder.Services.AddScoped<IRepository<ApplicationUserOtp> ,Repository<ApplicationUserOtp> >(); 
+            builder.Services.AddScoped<IProductSubImageRepository ,ProductSubImageRepository>(); 
+            builder.Services.AddScoped<IProductColorRepository ,ProductColorRepository>(); 
+            builder.Services.AddTransient<IEmailSender,EmailSender>();
+
 
             var app = builder.Build();
 
@@ -27,7 +63,7 @@ namespace ECommerce527
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{area=Admin}/{controller=Category}/{action=Index}/{id?}")
+                pattern: "{area=Identity}/{controller=Account}/{action=Login}/{id?}")
                 .WithStaticAssets();
 
             app.Run();
