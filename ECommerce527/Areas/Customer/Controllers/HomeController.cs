@@ -1,8 +1,10 @@
 using ECommerce527.Data;
 using ECommerce527.Models;
+using ECommerce527.Repositories;
 using ECommerce527.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using System.Diagnostics;
 
 namespace ECommerce527.Areas.Customer.Controllers
@@ -11,10 +13,12 @@ namespace ECommerce527.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         ApplicationDbContext _context;// = new ApplicationDbContext(); 
+        private readonly IRepository<Product> _productRepository;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context, IRepository<Product> productRepository)
         {
             _context = context;
+            _productRepository = productRepository;
         }
 
         public IActionResult Index(FilterProductVM filter)
@@ -70,6 +74,22 @@ namespace ECommerce527.Areas.Customer.Controllers
 
 
             return View(products.ToList());
+        }
+        public async Task<IActionResult> ProductDetails(int id)
+        {
+            var product = await _productRepository.GetOneAsync(p=>p.Id == id , includes: [p=>p.Category]);
+            if(product is null)
+            {
+                return NotFound(); 
+            }
+            var relatedProducts = await _productRepository.GetAsync(p => p.CategoryId == product.CategoryId && p.Id != product.Id, includes: [p => p.Category]);
+            relatedProducts = relatedProducts.Skip(0).Take(4);
+            
+            return View(new ProductWithRelatedVM()
+            {
+                Product = product  , 
+                RelatedProducts = relatedProducts ,
+            }); 
         }
 
         public IActionResult Privacy()

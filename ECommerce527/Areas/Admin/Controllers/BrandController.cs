@@ -1,5 +1,6 @@
 ﻿using ECommerce527.Data;
 using ECommerce527.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
@@ -7,6 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 namespace ECommerce527.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE}  , {CD.ADMIN_ROLE} , {CD.EMPLOYEE_ROLE}")]
+
     public class BrandController : Controller
     {
         //ApplicationDbContext _context = new ApplicationDbContext();
@@ -49,6 +52,8 @@ namespace ECommerce527.Areas.Admin.Controllers
             await  _brandRepository.CommitAsync();
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE}  , {CD.ADMIN_ROLE} ")]
+
         public async Task<IActionResult> Update(int id )
         {
             //var brand = _context.Brands.FirstOrDefault(c=>c.Id == id); 
@@ -59,6 +64,8 @@ namespace ECommerce527.Areas.Admin.Controllers
             }
             return View(brand);
         }
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE}  , {CD.ADMIN_ROLE} ")]
+
         [HttpPost]
         public async Task<IActionResult> Update(Brand brand ,  IFormFile ImgFile)
         {
@@ -94,6 +101,8 @@ namespace ECommerce527.Areas.Admin.Controllers
             await _brandRepository.CommitAsync(); 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE}  , {CD.ADMIN_ROLE} ")]
+
         public async Task<IActionResult> Delete(int id)
         {
             //var brand = _context.Brands.FirstOrDefault(c => c.Id == id);

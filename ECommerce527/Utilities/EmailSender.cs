@@ -12,7 +12,7 @@ namespace ECommerce527.Utilities
             {
                 EnableSsl = true,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential("bahaa.test99@gmail.com", "izcc ajvq ootk labf")
+                Credentials = new NetworkCredential("bahaa.test99@gmail.com", "rtdr diyk xbqy xeml\r\n")
             };
             var mail = new MailMessage(from: "bahaa.test99@gmail.com", to: email, subject, htmlMessage)
             {

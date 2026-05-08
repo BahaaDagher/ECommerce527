@@ -1,4 +1,5 @@
 ﻿using ECommerce527.Repositories;
+using ECommerce527.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -60,7 +61,8 @@ namespace ECommerce527.Areas.Identity.Controllers
             await _emailSender.SendEmailAsync(
                 registerVM.Email ,
                 "Ecommerce527 Confirm Email" , 
-                $"<h1>click <a href={link}> here </a> to confirm Your Email </h1>"); 
+                $"<h1>click <a href={link}> here </a> to confirm Your Email </h1>");
+            await _userManager.AddToRoleAsync(user , CD.CUSTOMER_ROLE);
             return RedirectToAction(nameof(Login));
         }
         public async Task<IActionResult> ConfirmEmail(string userId , string token)
@@ -126,7 +128,7 @@ namespace ECommerce527.Areas.Identity.Controllers
             {
                 if (result.IsLockedOut)
                 {
-                    ModelState.AddModelError("", "to many attempts please try again Later");
+                    ModelState.AddModelError("", "you are Locked Now try again Later");
                 }
                 else if (result.IsNotAllowed)
                 {
@@ -140,6 +142,11 @@ namespace ECommerce527.Areas.Identity.Controllers
             }
             TempData["Success-Notification"] = "Login Successfully ";
             return RedirectToAction("Index" , "Home" , new { area = "Customer"});
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(Login)); 
         }
 
         [HttpGet]
@@ -245,6 +252,11 @@ namespace ECommerce527.Areas.Identity.Controllers
                 return View(newPasswordVM); 
             }
             return RedirectToAction(nameof(Login)); 
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

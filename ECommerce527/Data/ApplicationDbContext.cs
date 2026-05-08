@@ -16,8 +16,7 @@ namespace ECommerce527.Data
         public DbSet<ProductSubImage> ProductSubImages { get; set; }
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<ApplicationUserOtp> ApplicationUserOtps { get; set; }
-        public DbSet<ECommerce527.ViewModels.ValidateOTPVM> ValidateOTPVM { get; set; } = default!;
-        public DbSet<ECommerce527.ViewModels.NewPasswordVM> NewPasswordVM { get; set; } = default!;
+        public DbSet<Cart> Carts { get; set; }
         
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

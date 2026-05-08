@@ -1,5 +1,6 @@
 ﻿using ECommerce527.Data;
 using ECommerce527.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -10,6 +11,8 @@ using System.Drawing;
 namespace ECommerce527.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE}  , {CD.ADMIN_ROLE} , {CD.EMPLOYEE_ROLE}")]
+
     public class ProductController : Controller
     {
         //ApplicationDbContext _context = new ApplicationDbContext();
@@ -155,6 +158,8 @@ namespace ECommerce527.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE}  , {CD.ADMIN_ROLE} ")]
+
         [HttpGet]
         public async Task<IActionResult> Update(int id )
         {
@@ -177,6 +182,9 @@ namespace ECommerce527.Areas.Admin.Controllers
                 ProductColors = (await _productColorRepository.GetAsync(ps => ps.ProductId == id)).ToList(),
             });  
         }
+        
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE}  , {CD.ADMIN_ROLE} ")]
+
         [HttpPost]
         public async Task<IActionResult> Update(Product product ,  IFormFile ImgFile ,  List<IFormFile> SubImgFiles, List<string> Colors)
         {
@@ -273,6 +281,8 @@ namespace ECommerce527.Areas.Admin.Controllers
             await _productColorRepository.CommitAsync(); 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = $"{CD.SUPER_ADMIN_ROLE}  , {CD.ADMIN_ROLE} ")]
+
         public async Task<IActionResult> Delete(int id)
         {
             //var product = _context.Products.FirstOrDefault(c => c.Id == id);
