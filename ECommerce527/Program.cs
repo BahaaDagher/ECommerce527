@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Core.Types;
+using Stripe;
 
 namespace ECommerce527
 {
@@ -39,8 +40,9 @@ namespace ECommerce527
             //builder.Services.AddSingleton<IRepository<Category> ,Repository<Category> >(); 
             builder.Services.AddScoped<IRepository<Category> ,Repository<Category> >(); 
             builder.Services.AddScoped<IRepository<Brand> ,Repository<Brand>>(); 
-            builder.Services.AddScoped<IRepository<Product> ,Repository<Product> >(); 
+            builder.Services.AddScoped<IRepository<Models.Product> ,Repository<Models.Product> >(); 
             builder.Services.AddScoped<IRepository<Cart> ,Repository<Cart> >(); 
+            builder.Services.AddScoped<IRepository<Promotion> ,Repository<Promotion> >(); 
             builder.Services.AddScoped<IRepository<ApplicationUserOtp> ,Repository<ApplicationUserOtp> >(); 
             builder.Services.AddScoped<IProductSubImageRepository ,ProductSubImageRepository>(); 
             builder.Services.AddScoped<IProductColorRepository ,ProductColorRepository>(); 
@@ -55,7 +57,8 @@ namespace ECommerce527
 
                 options.SlidingExpiration = true;
             });
-
+            //builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())

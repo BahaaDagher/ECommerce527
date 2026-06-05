@@ -48,19 +48,24 @@
                     </div>
                 </div>
             }
+            <h1>
+                total Price is : @ViewBag.TotalPrice
+            </h1>
         <div class="card mb-4">
-          <div class="card-body p-4 d-flex flex-row">
-            <div data-mdb-input-init class="form-outline flex-fill">
-              <input type="text" id="form1" class="form-control form-control-lg" />
-              <label class="form-label" for="form1">Discound code</label>
-            </div>
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-warning btn-lg ms-3">Apply</button>
-          </div>
+            <form>
+              <div class="card-body p-4 d-flex flex-row">
+                <div data-mdb-input-init class="form-outline flex-fill">
+                  <input name ="code" type="text" id="form1" class="form-control form-control-lg" />
+                  <label class="form-label" for="form1">Discound code</label>
+                </div>
+                <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-warning btn-lg ms-3">Apply</button>
+              </div>
+            </form>
         </div>
 
         <div class="card">
           <div class="card-body">
-            <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
+            <a asp-action="Pay" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-block btn-lg">Proceed to Pay</a>
           </div>
         </div>
 
@@ -68,3 +73,8 @@
     </div>
   </div>
 </section>
+
+
+@section Scripts {
+    <partial name="_NotificationPartial" />
+}

@@ -17,6 +17,7 @@ namespace ECommerce527.Data
         public DbSet<ProductColor> ProductColors { get; set; }
         public DbSet<ApplicationUserOtp> ApplicationUserOtps { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
         
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

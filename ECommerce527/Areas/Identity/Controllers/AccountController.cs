@@ -65,6 +65,7 @@ namespace ECommerce527.Areas.Identity.Controllers
             await _userManager.AddToRoleAsync(user , CD.CUSTOMER_ROLE);
             return RedirectToAction(nameof(Login));
         }
+        [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string userId , string token)
         {
             var user = await _userManager.FindByIdAsync(userId);
